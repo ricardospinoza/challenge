@@ -60,3 +60,12 @@ Treinamento Spring Boot com desafio promovido pela empresa CWI
     ● Iremos executar a aplicação para testá-la, cuide com qualquer dependência externa e deixe claro 
     caso haja instruções especiais para execução do mesmo
     ● Teste bem sua solução, evite bugs
+    
+## Instalação
+	 ● Lombok
+		Efetuar download do jar lombok, disponível em https://projectlombok.org/download 
+		executar o jar e informar o local da IDE utilizada
+		
+		
+		
+	
