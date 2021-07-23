@@ -1,0 +1,30 @@
+package com.cwi.cooperative.voting.controller.v1;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.cwi.cooperative.voting.model.Topic;
+import com.cwi.cooperative.voting.service.TopicSaveService;
+
+@Controller
+@RequestMapping("/v1/topic")
+public class TopicControllerV1 {
+	
+	@Autowired
+	private TopicSaveService topicSaveService;	
+	
+	@PostMapping(value="/add")	
+	public ResponseEntity<String> add(
+			@RequestParam(required=true) String name,
+			@RequestParam(required=false) String description) {
+		
+		topicSaveService.execute(Topic.builder().name(name).description(description).build());
+		return ResponseEntity.status(HttpStatus.OK).build();
+	}
+	
+}
