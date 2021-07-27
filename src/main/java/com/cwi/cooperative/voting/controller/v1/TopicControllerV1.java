@@ -20,10 +20,10 @@ public class TopicControllerV1 {
 	
 	@PostMapping(value="/add")	
 	public ResponseEntity<String> add(
-			@RequestParam(required=true) String name,
+			@RequestParam(required=true) String title,
 			@RequestParam(required=false) String description) {
 		
-		topicSaveService.execute(Topic.builder().name(name).description(description).build());
+		topicSaveService.execute(Topic.builder().title(title).description(description).build());
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
