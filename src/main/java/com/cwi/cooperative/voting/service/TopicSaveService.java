@@ -9,7 +9,6 @@ import com.cwi.cooperative.voting.repository.TopicRepository;
 import com.cwi.cooperative.voting.response.CPFResponse;
 import com.cwi.cooperative.voting.response.StatusOfVote;
 
-import ch.qos.logback.core.status.Status;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
