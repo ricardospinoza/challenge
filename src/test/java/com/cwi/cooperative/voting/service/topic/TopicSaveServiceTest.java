@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
-import com.cwi.cooperative.voting.model.Topic;
+import com.cwi.cooperative.voting.model.entity.Topic;
 import com.cwi.cooperative.voting.repository.TopicRepository;
 
 @RunWith(MockitoJUnitRunner.class)

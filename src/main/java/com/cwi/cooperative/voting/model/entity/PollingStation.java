@@ -1,4 +1,4 @@
-package com.cwi.cooperative.voting.model;
+package com.cwi.cooperative.voting.model.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;

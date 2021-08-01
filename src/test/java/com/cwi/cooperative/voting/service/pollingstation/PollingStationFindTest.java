@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
-import com.cwi.cooperative.voting.model.PollingStation;
+import com.cwi.cooperative.voting.model.entity.PollingStation;
 import com.cwi.cooperative.voting.repository.PollingStationRepository;
 
 @RunWith(MockitoJUnitRunner.class)

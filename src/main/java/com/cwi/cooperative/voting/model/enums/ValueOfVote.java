@@ -1,4 +1,4 @@
-package com.cwi.cooperative.voting.model;
+package com.cwi.cooperative.voting.model.enums;
 
 public enum ValueOfVote {
 

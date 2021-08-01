@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.cwi.cooperative.voting.model.Topic;
+import com.cwi.cooperative.voting.model.entity.Topic;
 import com.cwi.cooperative.voting.service.topic.TopicSaveService;
 
 @Controller

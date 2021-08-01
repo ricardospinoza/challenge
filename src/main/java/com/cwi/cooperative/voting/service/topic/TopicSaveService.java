@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
-import com.cwi.cooperative.voting.model.Topic;
+import com.cwi.cooperative.voting.model.entity.Topic;
 import com.cwi.cooperative.voting.repository.TopicRepository;
-import com.cwi.cooperative.voting.service.IValideRules;
+import com.cwi.cooperative.voting.service.interfaces.IValideRules;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.cwi.cooperative.voting.service;
+package com.cwi.cooperative.voting.service.interfaces;
 
 import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
 

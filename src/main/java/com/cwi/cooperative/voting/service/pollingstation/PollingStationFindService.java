@@ -7,11 +7,11 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
-import com.cwi.cooperative.voting.model.PollingStation;
-import com.cwi.cooperative.voting.model.Topic;
-import com.cwi.cooperative.voting.model.Vote;
+import com.cwi.cooperative.voting.model.entity.PollingStation;
+import com.cwi.cooperative.voting.model.entity.Topic;
+import com.cwi.cooperative.voting.model.entity.Vote;
 import com.cwi.cooperative.voting.repository.PollingStationRepository;
-import com.cwi.cooperative.voting.service.IValideRules;
+import com.cwi.cooperative.voting.service.interfaces.IValideRules;
 
 @Service
 public class PollingStationFindService implements IValideRules {

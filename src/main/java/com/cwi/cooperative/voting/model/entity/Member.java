@@ -1,6 +1,5 @@
-package com.cwi.cooperative.voting.model;
+package com.cwi.cooperative.voting.model.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,12 +15,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Topic{
+public class Member{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(nullable = false)
-	private String title;
-	private String description;	
+	private String name;	
+	private String cpf;
 }

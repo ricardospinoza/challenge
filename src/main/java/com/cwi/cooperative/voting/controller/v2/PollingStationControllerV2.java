@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
-import com.cwi.cooperative.voting.model.Member;
-import com.cwi.cooperative.voting.model.PollingStation;
-import com.cwi.cooperative.voting.model.ValueOfVote;
+import com.cwi.cooperative.voting.model.entity.Member;
+import com.cwi.cooperative.voting.model.entity.PollingStation;
+import com.cwi.cooperative.voting.model.enums.ValueOfVote;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationSaveService;
 import com.cwi.cooperative.voting.service.vote.VoteSaveService;
 

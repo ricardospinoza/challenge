@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.cwi.cooperative.voting.client.CPFClient;
 import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
-import com.cwi.cooperative.voting.model.Member;
-import com.cwi.cooperative.voting.model.PollingStation;
-import com.cwi.cooperative.voting.model.ValueOfVote;
-import com.cwi.cooperative.voting.model.Vote;
+import com.cwi.cooperative.voting.model.entity.Member;
+import com.cwi.cooperative.voting.model.entity.PollingStation;
+import com.cwi.cooperative.voting.model.entity.Vote;
+import com.cwi.cooperative.voting.model.enums.ValueOfVote;
 import com.cwi.cooperative.voting.repository.VoteRepository;
 import com.cwi.cooperative.voting.response.CPFResponse;
 import com.cwi.cooperative.voting.response.MemberStatusOfVote;
-import com.cwi.cooperative.voting.service.IValideRules;
+import com.cwi.cooperative.voting.service.interfaces.IValideRules;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationFindService;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationSaveService;
 
