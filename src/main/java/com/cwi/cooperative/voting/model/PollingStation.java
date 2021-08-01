@@ -27,8 +27,7 @@ public class PollingStation{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne
-	@Column(nullable = false)
+	@OneToOne(optional = false)
 	private Topic topic;
 	
 	@Column(nullable = false, updatable = false)
@@ -39,7 +38,5 @@ public class PollingStation{
 	
 	@OneToMany
 	private List<Vote> voteList;
-	
-	
 	
 }

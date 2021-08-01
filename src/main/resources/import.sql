@@ -1,5 +1,8 @@
-insert into Topic (id, name, description) values (1, 'Pauta de votação #1', 'Aumento do imposto sindical em 3%');
-insert into Topic (id, name, description) values (2, 'Pauta de votação #2', 'Dissidio reajustado para 10%');
+insert into Topic(id, title, description) values (1, 'Aumento imposto', 'Aumento do imposto sindical em 3%');
+insert into Topic(id, title, description) values (2, 'Dissidio Salarial', 'Dissidio reajustado para 10%');
+
+insert into Member(id, name, cpf) values (1, 'Fulano',   '32250594120');
+insert into Member(id, name, cpf) values (2, 'Ciclano',  '61871184215');
+insert into Member(id, name, cpf) values (3, 'Beltrano', '68612087287');
 
 
---Senha padrao 123 para todos os usuarios

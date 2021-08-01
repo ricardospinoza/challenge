@@ -8,20 +8,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.Topic;
-import com.cwi.cooperative.voting.service.TopicSaveService;
+import com.cwi.cooperative.voting.service.topic.TopicSaveService;
 
 @Controller
 @RequestMapping("/v2/topic")
 public class TopicControllerV2 {
 
 	@Autowired
-	private TopicSaveService pautaSaveService;
+	private TopicSaveService topicSaveService;
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<Topic> add(@RequestBody Topic topic) {
-		pautaSaveService.execute(topic);
-		return ResponseEntity.status(HttpStatus.OK).build();
+		try {
+			topicSaveService.execute(topic);
+			return ResponseEntity.status(HttpStatus.OK).build();			
+		}
+		catch (ChallengeException err) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
 	}
-
 }
