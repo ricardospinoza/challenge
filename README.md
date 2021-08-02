@@ -66,6 +66,11 @@ Treinamento Spring Boot com desafio promovido pela empresa CWI
 		Efetuar download do jar lombok, disponível em https://projectlombok.org/download 
 		executar o jar e informar o local da IDE utilizada
 		
-		
+#Para testar		
+
+
+##Swagger:
+
+http://localhost:8080/swagger-ui.html		
 		
 	

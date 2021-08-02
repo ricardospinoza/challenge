@@ -1,10 +1,13 @@
 package com.cwi.cooperative.voting.service.member;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.conf.helpers.DocumentUtils;
+import com.cwi.cooperative.voting.conf.helpers.GeraCpfCnpj;
 import com.cwi.cooperative.voting.model.entity.Member;
 import com.cwi.cooperative.voting.repository.MemberRepository;
 import com.cwi.cooperative.voting.service.interfaces.IValideRules;
@@ -18,6 +21,19 @@ public class MemberSaveService implements IValideRules {
 	public void execute(Member member) {
 		validateRules(member);		
 		memberRepository.save(member);		
+	}
+	
+	public void executeRandomMember() {
+		
+		Member random = Member
+		.builder()
+		.id(new Random().nextLong())
+		.name("Random Member")
+		.cpf(new GeraCpfCnpj().cpf(false))
+		.build();
+		
+		validateRules(random);		
+		memberRepository.save(random);		
 	}
 
 	@Override
