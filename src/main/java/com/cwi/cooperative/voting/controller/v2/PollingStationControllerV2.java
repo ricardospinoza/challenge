@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
+import com.cwi.cooperative.voting.model.beans.ResultOfVoteCountBean;
 import com.cwi.cooperative.voting.model.entity.Member;
 import com.cwi.cooperative.voting.model.entity.PollingStation;
-import com.cwi.cooperative.voting.model.enums.ValueOfVote;
+import com.cwi.cooperative.voting.model.entity.Topic;
+import com.cwi.cooperative.voting.model.entity.Vote;
+import com.cwi.cooperative.voting.service.pollingstation.PollingStationFindService;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationSaveService;
 import com.cwi.cooperative.voting.service.vote.VoteSaveService;
 
@@ -21,6 +24,9 @@ public class PollingStationControllerV2 {
 
 	@Autowired
 	private PollingStationSaveService pollingStationSaveService;
+	
+	@Autowired
+	private PollingStationFindService pollingStationFindService;
 	
 	@Autowired
 	private VoteSaveService voteSaveService;
@@ -39,13 +45,24 @@ public class PollingStationControllerV2 {
 	}
 	
 	@RequestMapping(value = "/register-vote", method = RequestMethod.POST)
-	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation, @RequestBody Member member, @RequestBody ValueOfVote valueOfVote) {
+	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation, @RequestBody Member member, @RequestBody Vote.Value valueOfVote) {
 		
 		try {
-			//pollingStationSaveService.registerVote(pollingStation, vote);
 			voteSaveService.execute(member, pollingStation, valueOfVote);
-			
-			return ResponseEntity.status(HttpStatus.OK).build();			
+			return ResponseEntity.status(HttpStatus.OK).build();
+		}
+		catch (ChallengeException err) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		
+	}
+	
+	@RequestMapping(value = "/result-vote-count", method = RequestMethod.GET)
+	public ResponseEntity<ResultOfVoteCountBean> getResultVoteCount(@RequestBody Topic topic) {
+		
+		try {			 
+			ResultOfVoteCountBean voteCount = pollingStationFindService.getCountingOfVotes(topic);			
+			return new ResponseEntity<ResultOfVoteCountBean>(voteCount,HttpStatus.OK);			
 		}
 		catch (ChallengeException err) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

@@ -10,7 +10,6 @@ import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.entity.Member;
 import com.cwi.cooperative.voting.model.entity.PollingStation;
 import com.cwi.cooperative.voting.model.entity.Vote;
-import com.cwi.cooperative.voting.model.enums.ValueOfVote;
 import com.cwi.cooperative.voting.repository.VoteRepository;
 import com.cwi.cooperative.voting.response.CPFResponse;
 import com.cwi.cooperative.voting.response.MemberStatusOfVote;
@@ -35,15 +34,15 @@ public class VoteSaveService implements IValideRules {
 	@Autowired
 	private CPFClient cpfClient;
 	
-	public void execute(Member member, PollingStation pollingStation, ValueOfVote valueOfVote ) {
+	public void execute(Member member, PollingStation pollingStation, Vote.Value valueOfVote ) {
 		
 		//
 		CPFResponse cpfResponse = cpfClient.getCPF(member.getCpf());
-		if(cpfResponse.getMemberStatusOfVote().equals(MemberStatusOfVote.ABLE_TO_VOTE.toString())) {
+		if(cpfResponse.getMemberStatusOfVote().equals(MemberStatusOfVote.ABLE_TO_VOTE)) {
 			if (pollingStation.getClosePeriod().isBefore(LocalDateTime.now().plusSeconds(1))) {
 				Vote vote = new Vote();
 				vote.setMember(member);
-				vote.setValue(valueOfVote);
+				vote.setValue(valueOfVote.name());
 				vote.setPollingStation(pollingStation);
 				if (!pollingStationFindService.isVoteDuplicate(vote)) {
 					validateRules(vote);

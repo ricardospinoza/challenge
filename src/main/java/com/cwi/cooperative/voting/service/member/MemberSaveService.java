@@ -20,7 +20,7 @@ public class MemberSaveService implements IValideRules {
 	
 	public void execute(Member member) {
 		validateRules(member);		
-		memberRepository.save(member);		
+		memberRepository.save(member);
 	}
 	
 	public void executeRandomMember() {
@@ -50,7 +50,7 @@ public class MemberSaveService implements IValideRules {
 		}
 		
 		if (!DocumentUtils.isValidCPF(member.getCpf())) {
-			throw new ChallengeException(String.format("O Campo 'CPF' [%s]  é inválido!", member.getCpf()));			
+			throw new ChallengeException(String.format("O Campo 'CPF' [%s] é inválido!", member.getCpf()));			
 		}
 		
 		if (member.getName() == null ) {

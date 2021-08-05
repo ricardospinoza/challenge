@@ -6,8 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import com.cwi.cooperative.voting.model.enums.ValueOfVote;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,8 +25,13 @@ public class Vote{
 	@OneToOne
 	private PollingStation pollingStation;
 	
-	private ValueOfVote value;
+	private String value;
 	
 	@OneToOne
 	private Member member;
+	
+	
+	public enum Value {
+		YES, NO;				
+	} 
 }
