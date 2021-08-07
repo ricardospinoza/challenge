@@ -69,8 +69,14 @@ Treinamento Spring Boot com desafio promovido pela empresa CWI
 #Para testar		
 
 
-##Swagger:
+##Swagger
 
-http://localhost:8080/swagger-ui.html		
-		
+   http://localhost:8080/swagger-ui/index.html
+
+##H2 - Banco de dados
+    http://localhost:8080/h2/
+	O banco inicialmente está configurado para sobrescrever os dados, para persistir os dados alterar o arquivo "appplication.yml" e descomentar as linhas:
+	   hibernate:
+      ddl-auto: update
+
 	
