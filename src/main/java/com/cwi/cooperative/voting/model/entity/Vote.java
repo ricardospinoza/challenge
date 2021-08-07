@@ -31,7 +31,7 @@ public class Vote{
 	private Member member;
 	
 	
-	public enum Value {
+	public enum VoteAnswerEnum {
 		YES, NO;				
 	} 
 }

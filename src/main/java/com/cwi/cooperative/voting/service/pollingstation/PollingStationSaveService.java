@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
+import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.entity.PollingStation;
 import com.cwi.cooperative.voting.model.entity.Vote;
 import com.cwi.cooperative.voting.repository.PollingStationRepository;

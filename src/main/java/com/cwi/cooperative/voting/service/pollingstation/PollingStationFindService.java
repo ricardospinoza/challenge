@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
+import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.beans.ResultOfVoteCountBean;
 import com.cwi.cooperative.voting.model.entity.PollingStation;
 import com.cwi.cooperative.voting.model.entity.Topic;
@@ -46,8 +46,8 @@ public class PollingStationFindService implements IValideRules {
 		PollingStation pollingStation = pollingStationRepository.findByTopic(topic.getId());
 		
 		Map<String, Integer> mpVoteCount = new HashMap<>();
-		mpVoteCount.put(Vote.Value.YES.name(), 0);
-		mpVoteCount.put(Vote.Value.NO.name(), 0);
+		mpVoteCount.put(Vote.VoteAnswerEnum.YES.name(), 0);
+		mpVoteCount.put(Vote.VoteAnswerEnum.NO.name(), 0);
 		
 		for (Vote vote : pollingStation.getVoteList()) {
 			mpVoteCount.put(vote.getValue(), mpVoteCount.get(vote.getValue()) + 1);
@@ -57,8 +57,8 @@ public class PollingStationFindService implements IValideRules {
 			ResultOfVoteCountBean.builder()
 			.topicTitle(pollingStation.getTopic().getTitle())
 			.datePolling(pollingStation.getClosePeriod().toLocalDate())
-			.totalYes(mpVoteCount.get(Vote.Value.YES.name()))
-			.totalNo(mpVoteCount.get(Vote.Value.NO.name()))
+			.totalYes(mpVoteCount.get(Vote.VoteAnswerEnum.YES.name()))
+			.totalNo(mpVoteCount.get(Vote.VoteAnswerEnum.NO.name()))
 			.build();		
 	}
 	

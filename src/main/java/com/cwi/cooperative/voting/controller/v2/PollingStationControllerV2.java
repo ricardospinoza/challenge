@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
+import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.beans.ResultOfVoteCountBean;
 import com.cwi.cooperative.voting.model.entity.Member;
 import com.cwi.cooperative.voting.model.entity.PollingStation;
@@ -45,7 +45,7 @@ public class PollingStationControllerV2 {
 	}
 	
 	@RequestMapping(value = "/register-vote", method = RequestMethod.POST)
-	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation, @RequestBody Member member, @RequestBody Vote.Value valueOfVote) {
+	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation, @RequestBody Member member, @RequestBody Vote.VoteAnswerEnum valueOfVote) {
 		
 		try {
 			voteSaveService.execute(member, pollingStation, valueOfVote);

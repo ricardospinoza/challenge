@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cwi.cooperative.voting.client.CPFClient;
-import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
+import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.entity.Member;
 import com.cwi.cooperative.voting.model.entity.PollingStation;
 import com.cwi.cooperative.voting.model.entity.Vote;
 import com.cwi.cooperative.voting.repository.VoteRepository;
 import com.cwi.cooperative.voting.response.CPFResponse;
-import com.cwi.cooperative.voting.response.MemberStatusOfVote;
+import com.cwi.cooperative.voting.response.MemberStatusOfVoteEnum;
 import com.cwi.cooperative.voting.service.interfaces.IValideRules;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationFindService;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationSaveService;
@@ -34,11 +34,11 @@ public class VoteSaveService implements IValideRules {
 	@Autowired
 	private CPFClient cpfClient;
 	
-	public void execute(Member member, PollingStation pollingStation, Vote.Value valueOfVote ) {
+	public void execute(Member member, PollingStation pollingStation, Vote.VoteAnswerEnum valueOfVote ) {
 		
 		//
 		CPFResponse cpfResponse = cpfClient.getCPF(member.getCpf());
-		if(cpfResponse.getMemberStatusOfVote().equals(MemberStatusOfVote.ABLE_TO_VOTE)) {
+		if(cpfResponse.getMemberStatusOfVoteEnum().equals(MemberStatusOfVoteEnum.ABLE_TO_VOTE)) {
 			if (pollingStation.getClosePeriod().isBefore(LocalDateTime.now().plusSeconds(1))) {
 				Vote vote = new Vote();
 				vote.setMember(member);

@@ -14,5 +14,5 @@ import lombok.ToString;
 @Getter
 @Builder
 public class CPFResponse {
-	private MemberStatusOfVote memberStatusOfVote;
+	private MemberStatusOfVoteEnum memberStatusOfVoteEnum;
 }

@@ -3,7 +3,7 @@ package com.cwi.cooperative.voting.service.topic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cwi.cooperative.voting.conf.exceptions.ChallengeException;
+import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.entity.Topic;
 import com.cwi.cooperative.voting.repository.TopicRepository;
 import com.cwi.cooperative.voting.service.interfaces.IValideRules;
