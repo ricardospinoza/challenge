@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
 public class ChallengeException extends RuntimeException{
 
 	private static final long serialVersionUID = -6806029002466564899L;
