@@ -26,8 +26,7 @@ public class MemberControllerV2 {
 			return ResponseEntity.status(HttpStatus.OK).build();			
 		}
 		catch (ChallengeException err) {	
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-			//return ResponseEntity.badRequest().body(err);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();	
 		}
 	}
 	

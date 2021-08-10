@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
+import com.cwi.cooperative.voting.helpers.MessageProperties;
 import com.cwi.cooperative.voting.model.entity.Topic;
 import com.cwi.cooperative.voting.repository.TopicRepository;
 import com.cwi.cooperative.voting.service.interfaces.IValideRules;
@@ -19,24 +20,20 @@ public class TopicSaveService implements IValideRules {
 	public void execute(Topic topic) {
 		validateRules(topic);
 		topicRepository.save(topic);
-		log.info(String.format("Topic id[%d] title[%s] created!", topic.getId(), topic.getTitle()));
+		log.info(String.format(MessageProperties.get().getMessage("topic-save"), topic.getId(), topic.getTitle()));
 	}
 
 	@Override
-	public <T> void validateRules(T object) throws ChallengeException {
-		
+	public <T> void validateRules(T object) throws ChallengeException {		
 		Topic topic = (Topic) object;		
-		
 		if(topic.getTitle() == null) {
-			throw new ChallengeException("Campo 'Title' é obrigatório!");
+			throw new ChallengeException(MessageProperties.get().getMessage("topic-title-null"));
 		}
 		if(topic.getTitle().trim().isEmpty()) {
-			throw new ChallengeException("Campo 'Title' está vazio!");
+			throw new ChallengeException(MessageProperties.get().getMessage("topic-tigle-empty"));
 		}
 		if(topic.getTitle().length() == 1) {
-			throw new ChallengeException("Campo 'Title' deve ter ser maior 1 caracter!");
-		}
-		
+			throw new ChallengeException(MessageProperties.get().getMessage("topic-length-invalid"));
+		}		
 	}
-
 }

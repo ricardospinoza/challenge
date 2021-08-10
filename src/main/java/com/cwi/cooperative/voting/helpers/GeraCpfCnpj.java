@@ -1,4 +1,4 @@
-package com.cwi.cooperative.voting.conf.helpers;
+package com.cwi.cooperative.voting.helpers;
 
 import java.util.InputMismatchException;
 import java.util.Random;

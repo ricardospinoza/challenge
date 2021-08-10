@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.cwi.cooperative.voting.client.CPFClient;
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
+import com.cwi.cooperative.voting.helpers.MessageProperties;
 import com.cwi.cooperative.voting.model.entity.Member;
 import com.cwi.cooperative.voting.model.entity.PollingStation;
 import com.cwi.cooperative.voting.model.entity.Vote;
@@ -17,7 +18,9 @@ import com.cwi.cooperative.voting.service.interfaces.IValideRules;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationFindService;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationSaveService;
 
-//@Slf4j
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class VoteSaveService implements IValideRules {
 	
@@ -34,9 +37,7 @@ public class VoteSaveService implements IValideRules {
 	@Autowired
 	private CPFClient cpfClient;
 	
-	public void execute(Member member, PollingStation pollingStation, Vote.VoteAnswerEnum valueOfVote ) {
-		
-		//
+	public void execute(Member member, PollingStation pollingStation, Vote.VoteAnswerEnum valueOfVote ) {		
 		CPFResponse cpfResponse = cpfClient.getCPF(member.getCpf());
 		if(cpfResponse.getMemberStatusOfVoteEnum().equals(MemberStatusOfVoteEnum.ABLE_TO_VOTE)) {
 			if (pollingStation.getClosePeriod().isBefore(LocalDateTime.now().plusSeconds(1))) {
@@ -51,7 +52,7 @@ public class VoteSaveService implements IValideRules {
 				}
 			}		
 		}		
-		//log.info(String.format("Status of Vote [%s]", cpfResponse.getStatusOfVote().toString()));
+		log.info(String.format(MessageProperties.get().getMessage("vote-save"), cpfResponse.getMemberStatusOfVoteEnum().toString()));
 	}
 
 	@Override

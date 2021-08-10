@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
+import com.cwi.cooperative.voting.helpers.MessageProperties;
 import com.cwi.cooperative.voting.model.entity.PollingStation;
 import com.cwi.cooperative.voting.model.entity.Vote;
 import com.cwi.cooperative.voting.repository.PollingStationRepository;
@@ -44,7 +45,7 @@ public class PollingStationSaveService implements IValideRules {
 		//End Rule 
 		
 		pollingStationRepository.save(pollingStation);
-		log.info(String.format("PollingStationFindTest id[%d] title[%s] created!", pollingStation.getId(), pollingStation.getTopic()));
+		log.info(String.format(MessageProperties.get().getMessage("polling-station-save"), pollingStation.getId(), pollingStation.getTopic()));
 	}
 	
 	public void registerVote(PollingStation pollingStation, Vote vote) {
@@ -68,15 +69,15 @@ public class PollingStationSaveService implements IValideRules {
 		
 		
 		if(pollingStation == null) {
-			throw new ChallengeException("A sessão de votação não pode ser nula!");
+			throw new ChallengeException(MessageProperties.get().getMessage("polling-station-voting-null"));
 		}
 		
 		if(pollingStation.getTopic() == null) {
-			throw new ChallengeException("Campo 'Topic' é obrigatório!");
+			throw new ChallengeException(MessageProperties.get().getMessage("polling-station-topic-null"));
 		}
 		
 		if(pollingStation.getStartPeriod() != null && pollingStation.getClosePeriod() != null && pollingStation.getStartPeriod().isAfter(pollingStation.getClosePeriod())) {
-			throw new ChallengeException("A data 'Start Period' não pode ser maior que a data 'Close Period'!");
+			throw new ChallengeException(MessageProperties.get().getMessage("polling-station-start-close-period-invalid"));
 		}
 		
 	}

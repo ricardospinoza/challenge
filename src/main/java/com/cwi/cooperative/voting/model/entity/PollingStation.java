@@ -21,22 +21,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PollingStation{
-	
+public class PollingStation {	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
+	private Long id;	
 	@OneToOne(optional = false)
-	private Topic topic;
-	
+	private Topic topic;	
 	@Column(nullable = false, updatable = false)
-	private LocalDateTime startPeriod;
-	
+	private LocalDateTime startPeriod;	
 	@Column(updatable = false)
-	private LocalDateTime closePeriod;
-	
+	private LocalDateTime closePeriod;	
 	@OneToMany
-	private List<Vote> voteList;
-	
+	private List<Vote> voteList;	
 }

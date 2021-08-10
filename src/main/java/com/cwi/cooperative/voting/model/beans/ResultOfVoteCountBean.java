@@ -7,11 +7,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ResultOfVoteCountBean {
-	
+public class ResultOfVoteCountBean {	
 	private String topicTitle;
 	private LocalDate datePolling;
 	private Integer totalYes;
-	private Integer totalNo;
-	
+	private Integer totalNo;	
 }

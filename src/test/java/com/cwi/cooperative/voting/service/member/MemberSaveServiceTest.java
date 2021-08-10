@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
-import com.cwi.cooperative.voting.conf.helpers.GeraCpfCnpj;
+import com.cwi.cooperative.voting.helpers.GeraCpfCnpj;
 import com.cwi.cooperative.voting.model.entity.Member;
 import com.cwi.cooperative.voting.repository.MemberRepository;
 

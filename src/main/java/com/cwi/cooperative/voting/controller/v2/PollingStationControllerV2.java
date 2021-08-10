@@ -32,42 +32,35 @@ public class PollingStationControllerV2 {
 	private VoteSaveService voteSaveService;
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation) {
-		
+	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation) {		
 		try {
 			pollingStationSaveService.execute(pollingStation);
 			return ResponseEntity.status(HttpStatus.OK).build();			
 		}
 		catch (ChallengeException err) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-		
+		}		
 	}
 	
 	@RequestMapping(value = "/register-vote", method = RequestMethod.POST)
-	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation, @RequestBody Member member, @RequestBody Vote.VoteAnswerEnum valueOfVote) {
-		
+	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation, @RequestBody Member member, @RequestBody Vote.VoteAnswerEnum valueOfVote) {		
 		try {
 			voteSaveService.execute(member, pollingStation, valueOfVote);
 			return ResponseEntity.status(HttpStatus.OK).build();
 		}
 		catch (ChallengeException err) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-		
+		}		
 	}
 	
 	@RequestMapping(value = "/result-vote-count", method = RequestMethod.GET)
-	public ResponseEntity<ResultOfVoteCountBean> getResultVoteCount(@RequestBody Topic topic) {
-		
+	public ResponseEntity<ResultOfVoteCountBean> getResultVoteCount(@RequestBody Topic topic) {		
 		try {			 
 			ResultOfVoteCountBean voteCount = pollingStationFindService.getCountingOfVotes(topic);			
 			return new ResponseEntity<ResultOfVoteCountBean>(voteCount,HttpStatus.OK);			
 		}
 		catch (ChallengeException err) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-		
-	}
-	
+		}		
+	}	
 }
