@@ -1,5 +1,6 @@
 package com.cwi.cooperative.voting.service.pollingstation;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 public class PollingStationFindService implements IValideRules {
 	
 	@Autowired
-	private PollingStationRepository pollingStationRepository;	
-
+	private PollingStationRepository pollingStationRepository;
+	
 	public PollingStation getById(Long id) {		
 		validateRules(id);		
 		return pollingStationRepository.getById(id);		
@@ -41,36 +42,45 @@ public class PollingStationFindService implements IValideRules {
 		return pollingStation.getVoteList().contains(vote);
 	}	
 	
-	public ResultOfVoteCountBean getCountingOfVotes(Topic topic) {	
-		validateRules(topic);		
-		PollingStation pollingStation = pollingStationRepository.findByTopic(topic.getId());		
+	public ResultOfVoteCountBean getCountingOfVotes(Topic topic) {
+		validateRules(topic);
+		PollingStation pollingStation = pollingStationRepository.findByTopic(topic.getId());
+		validateRules(pollingStation);
+		
 		Map<String, Integer> mpVoteCount = new HashMap<>();
 		mpVoteCount.put(Vote.VoteAnswerEnum.YES.name(), 0);
 		mpVoteCount.put(Vote.VoteAnswerEnum.NO.name(), 0);		
 		for (Vote vote : pollingStation.getVoteList()) {
 			mpVoteCount.put(vote.getValue(), mpVoteCount.get(vote.getValue()) + 1);
-		}		
+		}
 		return 
 			ResultOfVoteCountBean.builder()
 			.topicTitle(pollingStation.getTopic().getTitle())
 			.datePolling(pollingStation.getClosePeriod().toLocalDate())
 			.totalYes(mpVoteCount.get(Vote.VoteAnswerEnum.YES.name()))
 			.totalNo(mpVoteCount.get(Vote.VoteAnswerEnum.NO.name()))
-			.build();		
+			.build();
 	}
 	
 	public List<PollingStation> getByTopic(Topic topic) {		
 		validateRules(topic);		
 		Example<PollingStation> target = Example.of(PollingStation.builder().topic(topic).build());		
 		return pollingStationRepository.findAll(target);
-	}	
+	}
 
 	@Override
-	public <T> void validateRules(T object) throws ChallengeException {		
+	public <T> void validateRules(T object) throws ChallengeException {
 		if(object == null) {
 			log.error(MessageProperties.get().getMessage("polling-station-object-invalid"));
 			throw new ChallengeException(MessageProperties.get().getMessage("polling-station-object-invalid"));
 		}		
+		if(object instanceof PollingStation) {
+			PollingStation testRuleVotingInProgress = (PollingStation) object;
+			if(LocalDateTime.now().isAfter(testRuleVotingInProgress.getClosePeriod())) {
+				log.warn(MessageProperties.get().getMessage("polling-station-voting-in-progress"));
+				throw new ChallengeException(MessageProperties.get().getMessage("polling-station-voting-in-progress"));
+			}
+		}
 	}
 
 }
