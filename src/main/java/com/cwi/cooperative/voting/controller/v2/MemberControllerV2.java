@@ -12,14 +12,19 @@ import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.entity.Member;
 import com.cwi.cooperative.voting.service.member.MemberSaveService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @Controller
 @RequestMapping("/v2/member")
+@Api(value = "API Members - V2")
 public class MemberControllerV2 {
 
 	@Autowired
 	private MemberSaveService memberSaveService;
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@ApiOperation(value = "Add Member")
 	public ResponseEntity<Member> add(@RequestBody Member member) {
 		try {
 			memberSaveService.execute(member);
@@ -30,6 +35,7 @@ public class MemberControllerV2 {
 		}
 	}
 	
+	@ApiOperation(value = "Add Member Random for Simulation")
 	@RequestMapping(value = "/add-radom", method = RequestMethod.POST)
 	public ResponseEntity<Member> add() {
 		try {

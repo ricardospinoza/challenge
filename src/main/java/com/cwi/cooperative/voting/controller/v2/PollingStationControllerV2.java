@@ -18,8 +18,12 @@ import com.cwi.cooperative.voting.service.pollingstation.PollingStationFindServi
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationSaveService;
 import com.cwi.cooperative.voting.service.vote.VoteSaveService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @Controller
 @RequestMapping("/v2/polling-station")
+@Api(value = "API Polling Station - V2")
 public class PollingStationControllerV2 {
 
 	@Autowired
@@ -32,6 +36,7 @@ public class PollingStationControllerV2 {
 	private VoteSaveService voteSaveService;
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@ApiOperation(value = "add Polling Station")
 	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation) {		
 		try {
 			pollingStationSaveService.execute(pollingStation);
@@ -43,6 +48,7 @@ public class PollingStationControllerV2 {
 	}
 	
 	@RequestMapping(value = "/register-vote", method = RequestMethod.POST)
+	@ApiOperation(value = "add Vote for Polling Station")
 	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation, @RequestBody Member member, @RequestBody Vote.VoteAnswerEnum valueOfVote) {		
 		try {
 			voteSaveService.execute(member, pollingStation, valueOfVote);
@@ -54,6 +60,7 @@ public class PollingStationControllerV2 {
 	}
 	
 	@RequestMapping(value = "/result-vote-count", method = RequestMethod.GET)
+	@ApiOperation(value = "Result of Vote Count")
 	public ResponseEntity<ResultOfVoteCountBean> getResultVoteCount(@RequestBody Topic topic) {		
 		try {			 
 			ResultOfVoteCountBean voteCount = pollingStationFindService.getCountingOfVotes(topic);			

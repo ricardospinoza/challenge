@@ -11,14 +11,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cwi.cooperative.voting.model.entity.Topic;
 import com.cwi.cooperative.voting.service.topic.TopicSaveService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @Controller
 @RequestMapping("/v1/topic")
+@Api(value = "API Topic - V1")
 public class TopicControllerV1 {
 	
 	@Autowired
 	private TopicSaveService topicSaveService;	
 	
 	@PostMapping(value="/add")	
+	@ApiOperation(value = "Add Topic")
 	public ResponseEntity<String> add(
 			@RequestParam(required=true) String title,
 			@RequestParam(required=false) String description) {

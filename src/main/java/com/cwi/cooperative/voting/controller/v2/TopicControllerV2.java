@@ -12,14 +12,19 @@ import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.entity.Topic;
 import com.cwi.cooperative.voting.service.topic.TopicSaveService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @Controller
 @RequestMapping("/v2/topic")
+@Api(value = "API Topics - V2")
 public class TopicControllerV2 {
 
 	@Autowired
 	private TopicSaveService topicSaveService;
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@ApiOperation(value = "Add Topic")
 	public ResponseEntity<Topic> add(@RequestBody Topic topic) {
 		try {
 			topicSaveService.execute(topic);
