@@ -1,13 +1,10 @@
 package com.cwi.cooperative.voting.service.member;
 
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
-import com.cwi.cooperative.voting.helpers.GeraCpfCnpj;
 import com.cwi.cooperative.voting.helpers.MessageProperties;
 import com.cwi.cooperative.voting.model.entity.Member;
 import com.cwi.cooperative.voting.repository.MemberRepository;
@@ -27,18 +24,8 @@ public class MemberSaveService implements IValideRules {
 		validateRules(member);		
 		memberRepository.save(member);
 	}
-	
-	public void executeRandomMember() {		
-		Member random = Member
-		.builder()
-		.id(new Random().nextLong())
-		.name("Random Member")
-		.cpf(new GeraCpfCnpj().cpf(false))
-		.build();		
-		validateRules(random);		
-		memberRepository.save(random);		
-	}
 
+	
 	@Override
 	public <T> void validateRules(T object) throws ChallengeException {		
 		

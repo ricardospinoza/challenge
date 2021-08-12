@@ -35,16 +35,4 @@ public class MemberControllerV2 {
 		}
 	}
 	
-	@ApiOperation(value = "Add Member Random for Simulation")
-	@RequestMapping(value = "/add-radom", method = RequestMethod.POST)
-	public ResponseEntity<Member> add() {
-		try {
-			memberSaveService.executeRandomMember();
-			return ResponseEntity.status(HttpStatus.OK).build();			
-		}
-		catch (ChallengeException err) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-	}
-	
 }

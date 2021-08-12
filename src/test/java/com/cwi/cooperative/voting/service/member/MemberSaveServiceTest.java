@@ -86,7 +86,7 @@ public class MemberSaveServiceTest {
 				.builder()
 				.id(new Random().nextLong())
 				.name("Zezinho da silva")
-				.cpf(new GeraCpfCnpj().cpf(false))
+				.cpf("74024992007")
 				.build();
 	}
 	
