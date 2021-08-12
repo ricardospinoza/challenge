@@ -25,13 +25,13 @@ public class Vote{
 	@OneToOne
 	private PollingStation pollingStation;
 	
-	private String value;
+	private String answer;
 	
 	@OneToOne
 	private Member member;
 	
 	
-	public enum VoteAnswerEnum {
+	public enum AnswerOptions {
 		YES, NO;				
 	} 
 }
