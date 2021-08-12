@@ -1,5 +1,7 @@
 package com.cwi.cooperative.voting.response;
 
+import com.cwi.cooperative.voting.enums.MemberStatusOfVoteEnum;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

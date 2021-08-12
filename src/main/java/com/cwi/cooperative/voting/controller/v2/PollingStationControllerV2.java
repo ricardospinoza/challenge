@@ -49,9 +49,9 @@ public class PollingStationControllerV2 {
 	
 	@RequestMapping(value = "/register-vote", method = RequestMethod.POST)
 	@ApiOperation(value = "add Vote for Polling Station")
-	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation, @RequestBody Member member, @RequestBody Vote.VoteAnswerEnum valueOfVote) {		
+	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation, @RequestBody Member member, @RequestBody Vote.AnswerOptions answer) {		
 		try {
-			voteSaveService.execute(member, pollingStation, valueOfVote);
+			voteSaveService.execute(member, pollingStation, answer);
 			return ResponseEntity.status(HttpStatus.OK).build();
 		}
 		catch (ChallengeException err) {

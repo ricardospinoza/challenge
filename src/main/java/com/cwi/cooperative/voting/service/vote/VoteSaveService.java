@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cwi.cooperative.voting.client.CPFClient;
+import com.cwi.cooperative.voting.enums.MemberStatusOfVoteEnum;
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.helpers.MessageProperties;
 import com.cwi.cooperative.voting.model.entity.Member;
@@ -13,7 +14,6 @@ import com.cwi.cooperative.voting.model.entity.PollingStation;
 import com.cwi.cooperative.voting.model.entity.Vote;
 import com.cwi.cooperative.voting.repository.VoteRepository;
 import com.cwi.cooperative.voting.response.CPFResponse;
-import com.cwi.cooperative.voting.response.MemberStatusOfVoteEnum;
 import com.cwi.cooperative.voting.service.interfaces.IValideRules;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationFindService;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationSaveService;
@@ -37,13 +37,13 @@ public class VoteSaveService implements IValideRules {
 	@Autowired
 	private CPFClient cpfClient;
 	
-	public void execute(Member member, PollingStation pollingStation, Vote.VoteAnswerEnum valueOfVote ) {		
+	public void execute(Member member, PollingStation pollingStation, Vote.AnswerOptions answer ) {		
 		CPFResponse cpfResponse = cpfClient.getCPF(member.getCpf());
 		if(cpfResponse.getMemberStatusOfVoteEnum().equals(MemberStatusOfVoteEnum.ABLE_TO_VOTE)) {
 			if (pollingStation.getClosePeriod().isBefore(LocalDateTime.now().plusSeconds(1))) {
 				Vote vote = new Vote();
 				vote.setMember(member);
-				vote.setValue(valueOfVote.name());
+				vote.setValue(answer.name());
 				vote.setPollingStation(pollingStation);
 				if (!pollingStationFindService.isVoteDuplicate(vote)) {
 					validateRules(vote);

@@ -48,8 +48,8 @@ public class PollingStationFindService implements IValideRules {
 		validateRules(pollingStation);
 		
 		Map<String, Integer> mpVoteCount = new HashMap<>();
-		mpVoteCount.put(Vote.VoteAnswerEnum.YES.name(), 0);
-		mpVoteCount.put(Vote.VoteAnswerEnum.NO.name(), 0);		
+		mpVoteCount.put(Vote.AnswerOption.YES.name(), 0);
+		mpVoteCount.put(Vote.AnswerOption.NO.name(), 0);		
 		for (Vote vote : pollingStation.getVoteList()) {
 			mpVoteCount.put(vote.getValue(), mpVoteCount.get(vote.getValue()) + 1);
 		}
@@ -57,8 +57,8 @@ public class PollingStationFindService implements IValideRules {
 			ResultOfVoteCountBean.builder()
 			.topicTitle(pollingStation.getTopic().getTitle())
 			.datePolling(pollingStation.getClosePeriod().toLocalDate())
-			.totalYes(mpVoteCount.get(Vote.VoteAnswerEnum.YES.name()))
-			.totalNo(mpVoteCount.get(Vote.VoteAnswerEnum.NO.name()))
+			.totalYes(mpVoteCount.get(Vote.AnswerOption.YES.name()))
+			.totalNo(mpVoteCount.get(Vote.AnswerOption.NO.name()))
 			.build();
 	}
 	
