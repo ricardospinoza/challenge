@@ -2,13 +2,11 @@ package com.cwi.cooperative.voting.service.topic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.helpers.MessageProperties;
 import com.cwi.cooperative.voting.model.entity.Topic;
 import com.cwi.cooperative.voting.repository.TopicRepository;
 import com.cwi.cooperative.voting.service.interfaces.IValideRules;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -23,6 +21,12 @@ public class TopicSaveService implements IValideRules {
 		log.info(String.format(MessageProperties.get().getMessage("topic-save"), topic.getId(), topic.getTitle()));
 	}
 
+	/**
+	 * Validação de regras de negocio
+	 * @param <T>
+	 * @param object objeto generico para flexibilidade validação
+	 * @throws ChallengeException
+	 */
 	@Override
 	public <T> void validateRules(T object) throws ChallengeException {		
 		Topic topic = (Topic) object;		

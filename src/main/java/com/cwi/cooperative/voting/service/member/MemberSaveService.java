@@ -3,13 +3,11 @@ package com.cwi.cooperative.voting.service.member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
-
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.helpers.MessageProperties;
 import com.cwi.cooperative.voting.model.entity.Member;
 import com.cwi.cooperative.voting.repository.MemberRepository;
 import com.cwi.cooperative.voting.service.interfaces.IValideRules;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,10 +23,14 @@ public class MemberSaveService implements IValideRules {
 		memberRepository.save(member);
 	}
 
-	
+	/**
+	 * Validação de regras de negocio
+	 * @param <T>
+	 * @param object objeto generico para flexibilidade validação
+	 * @throws ChallengeException
+	 */
 	@Override
 	public <T> void validateRules(T object) throws ChallengeException {		
-		
 		if(object == null) {
 			log.error(MessageProperties.get().getMessage("member-object-invalid"));
 			throw new ChallengeException(MessageProperties.get().getMessage("member-object-invalid"));
@@ -55,5 +57,4 @@ public class MemberSaveService implements IValideRules {
 			throw new ChallengeException(MessageProperties.get().getMessage("member-name-invalid"));			
 		}		
 	}
-
 }

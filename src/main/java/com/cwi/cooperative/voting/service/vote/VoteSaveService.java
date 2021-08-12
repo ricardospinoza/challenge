@@ -1,10 +1,7 @@
 package com.cwi.cooperative.voting.service.vote;
-
 import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.cwi.cooperative.voting.client.CPFClient;
 import com.cwi.cooperative.voting.enums.MemberStatusOfVoteEnum;
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
@@ -26,24 +23,27 @@ public class VoteSaveService implements IValideRules {
 	
 	@Autowired
 	private VoteRepository voteRepository;
-	
 	@Autowired
-	private PollingStationFindService pollingStationFindService;	
-	
+	private PollingStationFindService pollingStationFindService;
 	@Autowired
 	private PollingStationSaveService pollingStationSaveService;
-		
-	
 	@Autowired
 	private CPFClient cpfClient;
 	
+	/**
+	 * Registra o voto do associado na sessão, se o associado está apto para votar e dentro do prazo para votar.
+	 * Não permite votar mais de uma vez por cpf
+	 * @param member associado
+	 * @param pollingStation sessão de votação
+	 * @param answer opção de voto sim/não
+	 */	
 	public void execute(Member member, PollingStation pollingStation, Vote.AnswerOptions answer ) {		
 		CPFResponse cpfResponse = cpfClient.getCPF(member.getCpf());
 		if(cpfResponse.getMemberStatusOfVoteEnum().equals(MemberStatusOfVoteEnum.ABLE_TO_VOTE)) {
 			if (pollingStation.getClosePeriod().isBefore(LocalDateTime.now().plusSeconds(1))) {
 				Vote vote = new Vote();
 				vote.setMember(member);
-				vote.setValue(answer.name());
+				vote.setAnswer(answer.name());
 				vote.setPollingStation(pollingStation);
 				if (!pollingStationFindService.isVoteDuplicate(vote)) {
 					validateRules(vote);
@@ -55,31 +55,29 @@ public class VoteSaveService implements IValideRules {
 		log.info(String.format(MessageProperties.get().getMessage("vote-save"), cpfResponse.getMemberStatusOfVoteEnum().toString()));
 	}
 
+	/**
+	 * Validação de regras de negocio
+	 * @param <T>
+	 * @param object objeto generico para flexibilidade validação
+	 * @throws ChallengeException
+	 */
 	@Override
 	public <T> void validateRules(T object) throws ChallengeException {
-		Vote vote = (Vote) object;
-		
+		Vote vote = (Vote) object;		
 		if (vote == null) {
-			throw new ChallengeException("O Voto não pode ser nulo!");
-		}
-		
+			throw new ChallengeException(MessageProperties.get().getMessage("vote-nullo"));
+		}		
 		if (vote.getMember() == null) {
-			throw new ChallengeException("O associado não pode ser nulo!");
-		}
-		
+			throw new ChallengeException(MessageProperties.get().getMessage("vote-member-nullo"));
+		}		
 		if (vote.getPollingStation() == null) {
-			throw new ChallengeException("A sessão de votação não pode nula!");
+			throw new ChallengeException(MessageProperties.get().getMessage("vote-polling-station-nullo"));
+		}		
+		if (vote.getAnswer() == null) {
+			throw new ChallengeException(MessageProperties.get().getMessage("vote-answer-invalid"));
+		}		
+		if (pollingStationFindService.isVoteDuplicate(vote)) {			
+			throw new ChallengeException(MessageProperties.get().getMessage("vote-muiltple-votes"));
 		}
-		
-		if (vote.getValue() == null) {
-			throw new ChallengeException("Valor de volto inválido!");
-		}
-		
-		if (pollingStationFindService.isVoteDuplicate(vote)) {
-			throw new ChallengeException("Erro, não é possível votar mais de uma vez na mesma sessão de votações!");
-		}
-		
-		
 	}
-
 }

@@ -15,7 +15,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+/**
+ * Entidade que representa a Sessão de votação
+ * @author ricardo.spinoza
+ *
+ */
 @Entity
 @Data
 @NoArgsConstructor
