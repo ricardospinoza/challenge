@@ -7,11 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.entity.Topic;
 import com.cwi.cooperative.voting.service.topic.TopicSaveService;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -19,7 +17,6 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/v2/topic")
 @Api(value = "API Topics - V2")
 public class TopicControllerV2 {
-
 	@Autowired
 	private TopicSaveService topicSaveService;
 
@@ -31,7 +28,7 @@ public class TopicControllerV2 {
 			return ResponseEntity.status(HttpStatus.OK).build();			
 		}
 		catch (ChallengeException err) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			throw new ChallengeException(err.getMessage());
 		}
 	}
 }

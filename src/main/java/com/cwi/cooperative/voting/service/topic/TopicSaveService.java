@@ -14,7 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 public class TopicSaveService implements IValideRules {
 	@Autowired
 	private TopicRepository topicRepository;
+	@Autowired
+	private TopicFindService topicFindService;
 	
+	/**
+	 * Registra nova pauta no banco de dados
+	 * @param topic
+	 */	
 	public void execute(Topic topic) {
 		validateRules(topic);
 		topicRepository.save(topic);
@@ -22,22 +28,29 @@ public class TopicSaveService implements IValideRules {
 	}
 
 	/**
-	 * Validação de regras de negocio
+	 * Validação das regras de negocio
 	 * @param <T>
 	 * @param object objeto generico para flexibilidade validação
 	 * @throws ChallengeException
 	 */
 	@Override
-	public <T> void validateRules(T object) throws ChallengeException {		
-		Topic topic = (Topic) object;		
+	public <T> void validateRules(T object) throws ChallengeException {
+		Topic topic = (Topic) object;
 		if(topic.getTitle() == null) {
+			log.error(MessageProperties.get().getMessage("topic-title-null"));
 			throw new ChallengeException(MessageProperties.get().getMessage("topic-title-null"));
 		}
 		if(topic.getTitle().trim().isEmpty()) {
+			log.error(MessageProperties.get().getMessage("topic-tigle-empty"));
 			throw new ChallengeException(MessageProperties.get().getMessage("topic-tigle-empty"));
 		}
 		if(topic.getTitle().length() == 1) {
+			log.error(MessageProperties.get().getMessage("topic-length-invalid"));
 			throw new ChallengeException(MessageProperties.get().getMessage("topic-length-invalid"));
-		}		
+		}
+		if(topicFindService.getByTitle(topic.getTitle())!= null) {
+			log.error(MessageProperties.get().getMessage("topic-duplicated"));
+			throw new ChallengeException(MessageProperties.get().getMessage("topic-duplicated"));
+		}
 	}
 }

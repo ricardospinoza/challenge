@@ -38,15 +38,15 @@ public class MemberSaveService implements IValideRules {
 		Member member = (Member) object;		
 		if (member.getCpf() == null ) {
 			log.error(MessageProperties.get().getMessage("member-object-invalid"));
-			throw new ChallengeException(MessageProperties.get().getMessage("member-object-invalid"));			
+			throw new ChallengeException(MessageProperties.get().getMessage("member-object-invalid"));
 		}
 		if (member.getName() == null ) {
 			log.error(MessageProperties.get().getMessage("member-name-null"));
-			throw new ChallengeException(MessageProperties.get().getMessage("member-name-null"));			
+			throw new ChallengeException(MessageProperties.get().getMessage("member-name-null"));
 		}		
 		if (member.getName().trim().isEmpty() ) {
 			log.error(MessageProperties.get().getMessage("member-name-empty"));
-			throw new ChallengeException(MessageProperties.get().getMessage("member-name-empty"));			
+			throw new ChallengeException(MessageProperties.get().getMessage("member-name-empty"));
 		}		
 		if (member.getName().length() == 1 ) {
 			log.error(MessageProperties.get().getMessage("member-name-length-invalid"));
@@ -54,7 +54,11 @@ public class MemberSaveService implements IValideRules {
 		}
 		if (!member.getName().matches("^[a-zA-Z ]*$") ) {
 			log.error(MessageProperties.get().getMessage("member-name-invalid"));
-			throw new ChallengeException(MessageProperties.get().getMessage("member-name-invalid"));			
+			throw new ChallengeException(MessageProperties.get().getMessage("member-name-invalid"));
+		}
+		if (memberRepository.findByCpf(member.getCpf()) != null) {
+			log.error(MessageProperties.get().getMessage("member-cpf-duplicate"));
+			throw new ChallengeException(MessageProperties.get().getMessage("member-cpf-duplicate"));
 		}		
 	}
 }

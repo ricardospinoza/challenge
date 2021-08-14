@@ -3,15 +3,13 @@ package com.cwi.cooperative.voting.service.member;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-
+import static org.mockito.Mockito.when;
 import java.util.Random;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.entity.Member;
 import com.cwi.cooperative.voting.repository.MemberRepository;
@@ -59,6 +57,16 @@ public class MemberSaveServiceTest {
 		Member member = getMemberSuccessful();
 		member.setName(" @Ted 1234");
 		service.execute(member);
+		verify(repository, never()).save(any(Member.class));
+	}
+	
+	@Test(expected = ChallengeException.class)
+	public void errorShouldOccurWhenCpfFieldDuplicate() {		
+		Member member = getMemberSuccessful();		
+		when(repository.findByCpf(any(String.class))).thenReturn(member);		
+		Member memberOther = getMemberSuccessful();
+		memberOther.setCpf(member.getCpf());		
+		service.execute(memberOther);		
 		verify(repository, never()).save(any(Member.class));
 	}
 	

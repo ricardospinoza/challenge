@@ -16,6 +16,7 @@ import com.cwi.cooperative.voting.model.entity.PollingStation;
 import com.cwi.cooperative.voting.model.entity.Topic;
 import com.cwi.cooperative.voting.model.entity.Vote;
 import com.cwi.cooperative.voting.repository.PollingStationRepository;
+import com.cwi.cooperative.voting.service.topic.TopicFindService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PollingStationSaveServiceTest {		
@@ -24,6 +25,8 @@ public class PollingStationSaveServiceTest {
 	private PollingStationSaveService service;
 	@Mock
 	private PollingStationRepository repository;
+	@Mock
+	private TopicFindService topicFindService;	
 	@Mock
 	private static Topic topic;
 	@Mock
@@ -56,7 +59,7 @@ public class PollingStationSaveServiceTest {
 	private static PollingStation getPollingStationSuccessful() {
 		return PollingStation
 				.builder()
-				.id(new Random().nextLong())
+				.id(new Random().nextLong())				
 				.topic(topic)
 				.startPeriod(LocalDateTime.now())
 				.closePeriod(LocalDateTime.now().plusMinutes(10))

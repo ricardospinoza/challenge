@@ -7,9 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
-import com.cwi.cooperative.voting.model.beans.ResultOfVoteCountBean;
+import com.cwi.cooperative.voting.model.bean.PollingStationBean;
+import com.cwi.cooperative.voting.model.bean.ResultOfVoteCountBean;
 import com.cwi.cooperative.voting.model.entity.Member;
 import com.cwi.cooperative.voting.model.entity.PollingStation;
 import com.cwi.cooperative.voting.model.entity.Topic;
@@ -17,33 +17,33 @@ import com.cwi.cooperative.voting.model.entity.Vote;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationFindService;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationSaveService;
 import com.cwi.cooperative.voting.service.vote.VoteSaveService;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/v2/polling-station")
 @Api(value = "API Polling Station - V2")
 public class PollingStationControllerV2 {
-
 	@Autowired
-	private PollingStationSaveService pollingStationSaveService;
-	
+	private PollingStationSaveService pollingStationSaveService;	
 	@Autowired
-	private PollingStationFindService pollingStationFindService;
-	
+	private PollingStationFindService pollingStationFindService;	
 	@Autowired
 	private VoteSaveService voteSaveService;
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ApiOperation(value = "add Polling Station")
-	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation) {		
-		try {
+	public ResponseEntity<PollingStation> add(@RequestBody PollingStationBean pollingStationBean) {		
+		try {			
+			PollingStation pollingStation = pollingStationSaveService.prepareToSave(pollingStationBean);
 			pollingStationSaveService.execute(pollingStation);
 			return ResponseEntity.status(HttpStatus.OK).build();			
 		}
 		catch (ChallengeException err) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			log.error(String.format("[%s]->%s", this.getClass().getName(), err.getMessage()));
+			throw new ChallengeException(err.getMessage());
 		}		
 	}
 	
@@ -55,7 +55,8 @@ public class PollingStationControllerV2 {
 			return ResponseEntity.status(HttpStatus.OK).build();
 		}
 		catch (ChallengeException err) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			log.error(String.format("[%s]->%s", this.getClass().getName(), err.getMessage()));
+			throw new ChallengeException(err.getMessage());
 		}		
 	}
 	
@@ -67,7 +68,8 @@ public class PollingStationControllerV2 {
 			return new ResponseEntity<ResultOfVoteCountBean>(voteCount,HttpStatus.OK);			
 		}
 		catch (ChallengeException err) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			log.error(String.format("[%s]->%s", this.getClass().getName(), err.getMessage()));
+			throw new ChallengeException(err.getMessage());
 		}		
 	}	
 }

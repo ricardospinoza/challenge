@@ -7,11 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.entity.Member;
 import com.cwi.cooperative.voting.service.member.MemberSaveService;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -19,10 +17,9 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/v2/member")
 @Api(value = "API Members - V2")
 public class MemberControllerV2 {
-
 	@Autowired
 	private MemberSaveService memberSaveService;
-
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ApiOperation(value = "Add Member")
 	public ResponseEntity<Member> add(@RequestBody Member member) {
@@ -31,8 +28,8 @@ public class MemberControllerV2 {
 			return ResponseEntity.status(HttpStatus.OK).build();			
 		}
 		catch (ChallengeException err) {	
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();	
+			//return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();			
+			throw new ChallengeException(err.getMessage());
 		}
-	}
-	
+	}	
 }

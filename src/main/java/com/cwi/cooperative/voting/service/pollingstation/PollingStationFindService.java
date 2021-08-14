@@ -9,7 +9,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.helpers.MessageProperties;
-import com.cwi.cooperative.voting.model.beans.ResultOfVoteCountBean;
+import com.cwi.cooperative.voting.model.bean.ResultOfVoteCountBean;
 import com.cwi.cooperative.voting.model.entity.PollingStation;
 import com.cwi.cooperative.voting.model.entity.Topic;
 import com.cwi.cooperative.voting.model.entity.Vote;
