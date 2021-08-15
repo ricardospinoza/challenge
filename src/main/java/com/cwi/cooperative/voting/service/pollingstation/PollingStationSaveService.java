@@ -31,11 +31,11 @@ public class PollingStationSaveService implements IValideRules {
 	 */
 	public void execute(PollingStation pollingStation) {
 		validateRules(pollingStation);
+		validateRulesforAdd(pollingStation);
 		pollingStationRepository.save(pollingStation);
 		log.info(String.format(MessageProperties.get().getMessage("polling-station-save"), pollingStation.getId(), pollingStation.getTopic()));
 	}
 	
-	//TODO delegar responsabilidade de duplicidade para este método
 	public void registerVote(PollingStation pollingStation, Vote vote) {
 		validateRules(pollingStation);
 		if (!pollingStationFindService.isVoteDuplicate(vote)) {
@@ -75,6 +75,10 @@ public class PollingStationSaveService implements IValideRules {
 			log.error(MessageProperties.get().getMessage("polling-station-start-close-period-invalid"));
 			throw new ChallengeException(MessageProperties.get().getMessage("polling-station-start-close-period-invalid"));
 		}
+	}
+	
+	public <T> void validateRulesforAdd(T object) throws ChallengeException {
+		PollingStation pollingStation = (PollingStation) object;
 		if(pollingStationFindService.getByTopic(pollingStation.getTopic()) !=null) {
 			log.error(MessageProperties.get().getMessage("polling-station-topic-exits"));
 			throw new ChallengeException(MessageProperties.get().getMessage("polling-station-topic-exits"));
@@ -91,7 +95,7 @@ public class PollingStationSaveService implements IValideRules {
 		Topic topic = null;
 		if (pollingStationBean!=null) {
 			if (pollingStationBean.getIdTopic()!=null) {
-				topic =  topicFindService.getById(pollingStationBean.getIdTopic());				
+				topic =  topicFindService.getById(pollingStationBean.getIdTopic());
 			}
 			if (topic == null && pollingStationBean.getTitleTopic()!=null) {
 				topic = topicFindService.getByTitle(pollingStationBean.getTitleTopic());

@@ -20,13 +20,10 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+      
 client:
   url:
-    cpf-validator: https://user-info.herouapp.com/users/
-#client:
-#  applicationName: APP
-#  url:
-#    cep: https://viacep.com.br/ws
+    cpf-validator: https://user-info.herokuapp.com
 
 swagger:
   base-package: com.cwi.cooperative.voting

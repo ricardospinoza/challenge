@@ -25,11 +25,10 @@ public class MemberControllerV2 {
 	public ResponseEntity<Member> add(@RequestBody Member member) {
 		try {
 			memberSaveService.execute(member);
-			return ResponseEntity.status(HttpStatus.OK).build();			
+			return ResponseEntity.status(HttpStatus.OK).build();
 		}
-		catch (ChallengeException err) {	
-			//return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();			
+		catch (ChallengeException err) {
 			throw new ChallengeException(err.getMessage());
 		}
-	}	
+	}
 }

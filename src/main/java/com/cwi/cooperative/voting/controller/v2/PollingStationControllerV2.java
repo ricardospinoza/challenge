@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.bean.PollingStationBean;
 import com.cwi.cooperative.voting.model.bean.ResultOfVoteCountBean;
-import com.cwi.cooperative.voting.model.entity.Member;
+import com.cwi.cooperative.voting.model.bean.VoteBean;
 import com.cwi.cooperative.voting.model.entity.PollingStation;
 import com.cwi.cooperative.voting.model.entity.Topic;
-import com.cwi.cooperative.voting.model.entity.Vote;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationFindService;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationSaveService;
 import com.cwi.cooperative.voting.service.vote.VoteSaveService;
@@ -48,10 +47,10 @@ public class PollingStationControllerV2 {
 	}
 	
 	@RequestMapping(value = "/register-vote", method = RequestMethod.POST)
-	@ApiOperation(value = "add Vote for Polling Station")
-	public ResponseEntity<PollingStation> add(@RequestBody PollingStation pollingStation, @RequestBody Member member, @RequestBody Vote.AnswerOptions answer) {		
+	@ApiOperation(value = "add Vote for Polling Station")	
+	public ResponseEntity<PollingStation> add(@RequestBody VoteBean voteBean) {
 		try {
-			voteSaveService.execute(member, pollingStation, answer);
+			voteSaveService.execute(voteBean);
 			return ResponseEntity.status(HttpStatus.OK).build();
 		}
 		catch (ChallengeException err) {

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.helpers.MessageProperties;
@@ -33,10 +32,16 @@ public class PollingStationFindService implements IValideRules {
 		return pollingStationRepository.findAll();
 	}	
 
-	public boolean isVoteDuplicate(Vote vote) {		
-		validateRules(vote);		
-		PollingStation pollingStation = pollingStationRepository.getById(vote.getPollingStation().getId());		
-		return pollingStation.getVoteList().contains(vote);
+	public boolean isVoteDuplicate(Vote vote) {
+		validateRules(vote);
+		PollingStation pollingStation = pollingStationRepository.getById(vote.getPollingStation().getId());
+		pollingStation.getVoteList();
+		for (Vote item: pollingStation.getVoteList()) {
+			if (item.getMember().getId() == vote.getMember().getId()) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -46,7 +51,7 @@ public class PollingStationFindService implements IValideRules {
 	 */	
 	public ResultOfVoteCountBean getCountingOfVotes(Topic topic) {
 		validateRules(topic);
-		PollingStation pollingStation = pollingStationRepository.findByTopic(topic.getId());
+		PollingStation pollingStation = pollingStationRepository.findByTopic(topic);
 		validateRules(pollingStation);
 		Map<String, Integer> mpVoteCount = new HashMap<>();
 		mpVoteCount.put(Vote.AnswerOptions.YES.name(), 0);
@@ -64,14 +69,13 @@ public class PollingStationFindService implements IValideRules {
 	}
 	
 	/**
-	 * Listagem de sessões de votoção por pauta
-	 * @param topic
-	 * @return
+	 * Retorna a Sessão de votação correspondente a pauta
+	 * @param id - id da pauta
+	 * @return Sessão de votação
 	 */	
-	public List<PollingStation> getByTopic(Topic topic) {		
-		validateRules(topic);		
-		Example<PollingStation> target = Example.of(PollingStation.builder().topic(topic).build());		
-		return pollingStationRepository.findAll(target);
+	public PollingStation getByTopic(Topic topic) {
+		validateRules(topic);
+		return pollingStationRepository.findByTopic(topic);
 	}
 
 	/**

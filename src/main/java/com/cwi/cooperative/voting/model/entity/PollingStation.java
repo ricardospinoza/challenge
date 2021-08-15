@@ -2,18 +2,18 @@ package com.cwi.cooperative.voting.model.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 /**
  * Entidade que representa a Sessão de votação
@@ -24,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Builder
 public class PollingStation {	
 	@Id
@@ -35,6 +36,6 @@ public class PollingStation {
 	private LocalDateTime startPeriod;
 	@Column(updatable = false)
 	private LocalDateTime closePeriod;
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<Vote> voteList;
 }
