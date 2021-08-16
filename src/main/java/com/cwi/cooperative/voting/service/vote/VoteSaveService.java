@@ -46,6 +46,7 @@ public class VoteSaveService implements IValideRules {
 	 */	
 	public void execute(VoteBean voteBean) {
 		if (voteBean!=null) {
+			validateBean(voteBean);
 			Topic topic = null;
 			if (voteBean.getIdTopic()!=null) {
 				topic =  topicFindService.getById(voteBean.getIdTopic());				
@@ -91,7 +92,6 @@ public class VoteSaveService implements IValideRules {
 			throw new ChallengeException(MessageProperties.get().getMessage("polling-station-vote-no-complete"));
 		}
 	}
-
 	/**
 	 * Validação de regras de negocio
 	 * @param <T>
@@ -102,19 +102,43 @@ public class VoteSaveService implements IValideRules {
 	public <T> void validateRules(T object) throws ChallengeException {
 		Vote vote = (Vote) object;		
 		if (vote == null) {
+			log.error(MessageProperties.get().getMessage("vote-nullo"));
 			throw new ChallengeException(MessageProperties.get().getMessage("vote-nullo"));
 		}		
 		if (vote.getMember() == null) {
+			log.error(MessageProperties.get().getMessage("vote-member-nullo"));
 			throw new ChallengeException(MessageProperties.get().getMessage("vote-member-nullo"));
 		}		
 		if (vote.getPollingStation() == null) {
+			log.error(MessageProperties.get().getMessage("vote-polling-station-nullo"));
 			throw new ChallengeException(MessageProperties.get().getMessage("vote-polling-station-nullo"));
 		}		
 		if (vote.getAnswer() == null) {
+			log.error(MessageProperties.get().getMessage("vote-answer-invalid"));
 			throw new ChallengeException(MessageProperties.get().getMessage("vote-answer-invalid"));
 		}		
-		if (pollingStationFindService.isVoteDuplicate(vote)) {			
+		if (pollingStationFindService.isVoteDuplicate(vote)) {
+			log.error(MessageProperties.get().getMessage("vote-muiltple-votes"));
 			throw new ChallengeException(MessageProperties.get().getMessage("vote-muiltple-votes"));
+		}
+	}	
+	private <T> void validateBean(T object) throws ChallengeException {
+		if(object == null) {
+			log.error(MessageProperties.get().getMessage("generic-object-invalid"));
+			throw new ChallengeException(MessageProperties.get().getMessage("generic-object-invalid"));
+		}
+		VoteBean bean = (VoteBean) object;
+		if (bean.getCpfMember() == null || bean.getCpfMember().isEmpty()) {
+			log.error(MessageProperties.get().getMessage("member-cpf-required"));
+			throw new ChallengeException(MessageProperties.get().getMessage("member-cpf-required"));
+		}	
+		if ((bean.getTitleTopic() == null || bean.getTitleTopic().isEmpty()) && (bean.getIdTopic() == null)) {
+			log.error(MessageProperties.get().getMessage("topic-title-null"));
+			throw new ChallengeException(MessageProperties.get().getMessage("topic-title-null"));
+		}
+		if (bean.getAnswer() == null || (!bean.getAnswer().equals(Vote.AnswerOptions.YES) && !bean.getAnswer().equals(Vote.AnswerOptions.NO))) {
+			log.error(MessageProperties.get().getMessage("vote-answer-invalid"));
+			throw new ChallengeException(MessageProperties.get().getMessage("vote-answer-invalid"));
 		}
 	}
 }

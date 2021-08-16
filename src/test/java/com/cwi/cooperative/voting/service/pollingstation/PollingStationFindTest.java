@@ -10,8 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
+import com.cwi.cooperative.voting.model.bean.TopicBean;
 import com.cwi.cooperative.voting.model.entity.PollingStation;
-import com.cwi.cooperative.voting.model.entity.Topic;
 import com.cwi.cooperative.voting.repository.PollingStationRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -22,7 +22,7 @@ public class PollingStationFindTest {
 	@Mock
 	private PollingStationRepository repository;
 	@InjectMocks
-	private Topic topic;
+	private TopicBean topicBean;
 	@InjectMocks
 	private PollingStation pollingStation;
 	
@@ -40,9 +40,9 @@ public class PollingStationFindTest {
 	
 	@Test(expected = ChallengeException.class)
 	public void errorItMustGiveAnErrorInTheCountingOfVotesWhileVotingIsInProgress() {
-		topic.setId(1L);
+		topicBean.setIdTopic(1L);
 		try {
-			service.getCountingOfVotes(topic);
+			service.getCountingOfVotes(topicBean);
 		}
 		catch (ChallengeException erroOk) {
 			pollingStation.setClosePeriod(LocalDateTime.now().minusMinutes(1));		

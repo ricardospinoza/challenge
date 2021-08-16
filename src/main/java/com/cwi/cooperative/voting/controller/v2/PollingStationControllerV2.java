@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.cwi.cooperative.voting.exceptions.ChallengeException;
 import com.cwi.cooperative.voting.model.bean.PollingStationBean;
 import com.cwi.cooperative.voting.model.bean.ResultOfVoteCountBean;
+import com.cwi.cooperative.voting.model.bean.TopicBean;
 import com.cwi.cooperative.voting.model.bean.VoteBean;
 import com.cwi.cooperative.voting.model.entity.PollingStation;
-import com.cwi.cooperative.voting.model.entity.Topic;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationFindService;
 import com.cwi.cooperative.voting.service.pollingstation.PollingStationSaveService;
 import com.cwi.cooperative.voting.service.vote.VoteSaveService;
@@ -47,7 +47,7 @@ public class PollingStationControllerV2 {
 	}
 	
 	@RequestMapping(value = "/register-vote", method = RequestMethod.POST)
-	@ApiOperation(value = "add Vote for Polling Station")	
+	@ApiOperation(value = "add Vote for Polling Station")
 	public ResponseEntity<PollingStation> add(@RequestBody VoteBean voteBean) {
 		try {
 			voteSaveService.execute(voteBean);
@@ -56,19 +56,19 @@ public class PollingStationControllerV2 {
 		catch (ChallengeException err) {
 			log.error(String.format("[%s]->%s", this.getClass().getName(), err.getMessage()));
 			throw new ChallengeException(err.getMessage());
-		}		
+		}
 	}
 	
 	@RequestMapping(value = "/result-vote-count", method = RequestMethod.GET)
 	@ApiOperation(value = "Result of Vote Count")
-	public ResponseEntity<ResultOfVoteCountBean> getResultVoteCount(@RequestBody Topic topic) {		
-		try {			 
-			ResultOfVoteCountBean voteCount = pollingStationFindService.getCountingOfVotes(topic);			
+	public ResponseEntity<ResultOfVoteCountBean> getResultVoteCount(@RequestBody TopicBean topicBean) {
+		try {
+			ResultOfVoteCountBean voteCount = pollingStationFindService.getCountingOfVotes(topicBean);
 			return new ResponseEntity<ResultOfVoteCountBean>(voteCount,HttpStatus.OK);			
 		}
 		catch (ChallengeException err) {
 			log.error(String.format("[%s]->%s", this.getClass().getName(), err.getMessage()));
 			throw new ChallengeException(err.getMessage());
-		}		
-	}	
+		}
+	}
 }

@@ -35,7 +35,11 @@ public class PollingStationSaveService implements IValideRules {
 		pollingStationRepository.save(pollingStation);
 		log.info(String.format(MessageProperties.get().getMessage("polling-station-save"), pollingStation.getId(), pollingStation.getTopic()));
 	}
-	
+	/**
+	 * Registra voto na sessão de votação
+	 * @param pollingStation
+	 * @param vote
+	 */
 	public void registerVote(PollingStation pollingStation, Vote vote) {
 		validateRules(pollingStation);
 		if (!pollingStationFindService.isVoteDuplicate(vote)) {
@@ -49,7 +53,6 @@ public class PollingStationSaveService implements IValideRules {
 			pollingStationRepository.save(pollingStation);			
 		}
 	}
-
 	/**
 	 * Validação de regras de negocio
 	 * @param <T>
@@ -75,16 +78,14 @@ public class PollingStationSaveService implements IValideRules {
 			log.error(MessageProperties.get().getMessage("polling-station-start-close-period-invalid"));
 			throw new ChallengeException(MessageProperties.get().getMessage("polling-station-start-close-period-invalid"));
 		}
-	}
-	
-	public <T> void validateRulesforAdd(T object) throws ChallengeException {
+	}	
+	private <T> void validateRulesforAdd(T object) throws ChallengeException {
 		PollingStation pollingStation = (PollingStation) object;
 		if(pollingStationFindService.getByTopic(pollingStation.getTopic()) !=null) {
 			log.error(MessageProperties.get().getMessage("polling-station-topic-exits"));
 			throw new ChallengeException(MessageProperties.get().getMessage("polling-station-topic-exits"));
 		}
-	}
-	
+	}	
 	/**
 	 * Prepara (aplica regras de negocio) o objeto pollingStation para ser persistido
 	 * @param pollingStationBean
@@ -99,6 +100,10 @@ public class PollingStationSaveService implements IValideRules {
 			}
 			if (topic == null && pollingStationBean.getTitleTopic()!=null) {
 				topic = topicFindService.getByTitle(pollingStationBean.getTitleTopic());
+			}
+			if (topic == null) {
+				log.error(MessageProperties.get().getMessage("topic-not-found"));
+				throw new ChallengeException(MessageProperties.get().getMessage("topic-not-found"));
 			}
 		}
 		pollingStation.setTopic(topic);
